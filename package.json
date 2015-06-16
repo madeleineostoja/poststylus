@@ -1,0 +1,38 @@
+{
+  "name": "poststylus",
+  "version": "0.1.0",
+  "description": "postcss adapter for stylus",
+  "homepage": "http://github.com/seaneking/poststylus",
+  "author": {
+    "name": "Sean King",
+    "email": "sean@simpla.io",
+    "url": "http://simpla.io"
+  },
+  "repository": "seaneking/poststylus",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "poststylus",
+    "postcss",
+    "stylus",
+    "preprocessor"
+  ],
+  "dependencies": {
+    "multi-stage-sourcemap": "^0.2.1",
+    "path": "^0.11.14",
+    "postcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "css-parse": "^2.0.0",
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^0.14.0",
+    "gulp-mocha": "^2.1.1",
+    "stylus": "^0.51.1"
+  },
+  "scripts": {
+    "test": "gulp check"
+  }
+}
