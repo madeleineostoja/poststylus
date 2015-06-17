@@ -27,14 +27,14 @@ stylus(css).use(poststylus([
 ###### Gulp:
 ```js
 var gulp = require('gulp'),
-    stylus = require('gulps-stylus'),
+    stylus = require('gulp-stylus'),
     poststylus = require('poststylus');
 
 // PostCSS plugins we want to apply
 var postcssPlugins = [
     require('autoprefixer')(),
     require('postcss-position')(),
-    require('lost')
+    require('lost')()
 ];
 
 gulp.task('stylus', function () {
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
   var postcssPlugins = [
     require('autoprefixer')(),
     require('postcss-position')(),
-    require('lost')
+    require('lost')()
   ];
 
   grunt.initConfig({
