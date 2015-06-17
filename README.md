@@ -3,12 +3,13 @@
 
 PostStylus is a [PostCSS](https://github.com/postcss/postcss) adapter for Stylus. With it you can use any PostCSS plugin as a transparent Stylus plugin. Neato!
 
+It loads PostCSS plugins into Stylus just before it compiles output css into a file. If you use sourcemaps, they are preserved and extended by PostCSS processing as well.
+
 Inspired by [autoprefixer-stylus](https://github.com/jenius/autoprefixer-stylus)
 
 --
 
 ### Install
-
 ```sh
 $ npm install --save poststylus
 ```
@@ -16,14 +17,12 @@ $ npm install --save poststylus
 --
 
 ### Usage
-
 Just use `poststylus` as a regular stylus plugin and pass it an array of postcss plugins, like this:
 ```js
 stylus(css).use(poststylus([
   // your postcss plugins here
 ]))
 ```
-
 
 ###### Gulp:
 ```js
@@ -87,6 +86,24 @@ module.exports = function(grunt) {
 
 -- 
 
+### Custom PostCSS
+You can do any custom javascript/PostCSS processing of stylus output you want with PostStylus, just declare an on-the-fly plugin like so:
+```js
+var myPostcss = postcss.plugin('custom', function() {
+  return function (css) {
+    // custom processing here
+  });
+};
+
+// then pipe it into poststylus, as above
+stylus(css).use(poststylus(
+  require(myPostcss())
+)
+```
+Refer to the [PostCSS Docs][postcss-link] for more.
+
+-- 
+
 ### License
 
 MIT © [Sean King](http://simpla.io)
@@ -98,3 +115,4 @@ MIT © [Sean King](http://simpla.io)
 [travis-url]: https://travis-ci.org/seaneking/poststylus
 [daviddm-image]: https://david-dm.org/seaneking/poststylus.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/seaneking/poststylus
+[postcss-link]: https://github.com/postcss/postcss
