@@ -11,6 +11,24 @@ module.exports = function (plugins) {
     plugins = [];
   }
 
+  // process plugin, if plugin is a string, requires the package that we assume
+  //  that it points to
+  var processPlugin = function(plugin) {
+    if (typeof plugin === 'string') {
+      return require(plugin)();
+    }
+
+    return plugin;
+  };
+
+  // either process each if its an array, or if its singular, process it
+  if (typeof plugins.map !== 'undefined') {
+    // It's an array, process each of them
+    plugins = plugins.map(processPlugin);
+  } else {
+    plugins = processPlugin(plugins);
+  }
+
   // return a stylus function with postcss-processing applied
   return function(style) {
     style = this || style;
