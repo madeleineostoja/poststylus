@@ -3,7 +3,7 @@
 
 PostStylus is a [PostCSS][postcss-link] adapter for Stylus. With it you can use any PostCSS plugin as a transparent Stylus plugin. Neato!
 
-It loads PostCSS plugins into Stylus just before it compiles output css into a file. If you use sourcemaps, they are preserved and extended by PostCSS processing as well.
+It loads PostCSS plugins into Stylus just before it compiles output css into a file. If you use sourcemaps, they are preserved and extended by PostCSS processing.
 
 Inspired by [autoprefixer-stylus][autoprefixer-stylus]
 
@@ -17,7 +17,7 @@ $ npm install --save poststylus
 --
 
 ### Usage
-Just use `poststylus` as a regular stylus plugin and pass it an array of postcss plugins:
+Just use `poststylus` as a regular stylus plugin and pass it an array of PostCSS plugins:
 ```js
 stylus(css).use(poststylus([
     // postcss plugins here
@@ -71,7 +71,7 @@ module.exports = function(grunt) {
 ```
 
 ###### CLI
-To use PostStylus on the Stylus CLI, pass postStylus to `--use`, and PostCSS plugins to `--with`: 
+To use PostStylus on the Stylus CLI, pass `poststylus` to `--use`, and PostCSS plugins to `--with`: 
 ```sh
 $ stylus --use ./node_modules/poststylus --with "['autoprefixer']" --out test.css < test.styl
 ```
