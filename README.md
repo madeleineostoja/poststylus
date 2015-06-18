@@ -1,11 +1,11 @@
 # PostStylus
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 
-PostStylus is a [PostCSS](https://github.com/postcss/postcss) adapter for Stylus. With it you can use any PostCSS plugin as a transparent Stylus plugin. Neato!
+PostStylus is a [PostCSS][postcss-link] adapter for Stylus. With it you can use any PostCSS plugin as a transparent Stylus plugin. Neato!
 
 It loads PostCSS plugins into Stylus just before it compiles output css into a file. If you use sourcemaps, they are preserved and extended by PostCSS processing as well.
 
-Inspired by [autoprefixer-stylus](https://github.com/jenius/autoprefixer-stylus)
+Inspired by [autoprefixer-stylus][autoprefixer-stylus]
 
 --
 
@@ -17,31 +17,24 @@ $ npm install --save poststylus
 --
 
 ### Usage
-Just use `poststylus` as a regular stylus plugin and pass it an array of postcss plugins, like this:
+Just use `poststylus` as a regular stylus plugin and pass it an array of postcss plugins:
 ```js
 stylus(css).use(poststylus([
-  // your postcss plugins here
+    // postcss plugins here
 ]))
 ```
 
 ###### Gulp:
 ```js
 var gulp = require('gulp'),
-    stylus = require('gulp-stylus'),
+    stylus = require('gulps-stylus'),
     poststylus = require('poststylus');
-
-// PostCSS plugins we want to apply
-var postcssPlugins = [
-    require('autoprefixer')(),
-    require('postcss-position')(),
-    require('lost')()
-];
 
 gulp.task('stylus', function () {
   gulp.src('style.styl')
     .pipe(stylus({
       use: [
-        poststylus(postcssPlugins)
+        poststylus(['autoprefixer', 'postcss-position', 'lost'])
       ]
     }))
     .pipe(gulp.dest('.'))
@@ -54,13 +47,6 @@ gulp.task('default', ['stylus']);
 ###### Grunt:
 ``` js
 module.exports = function(grunt) {
-  
-  // PostCSS plugins we want to apply
-  var postcssPlugins = [
-    require('autoprefixer')(),
-    require('postcss-position')(),
-    require('lost')()
-  ];
 
   grunt.initConfig({
 
@@ -68,7 +54,7 @@ module.exports = function(grunt) {
       compile: {
         options: {
           use: [
-             poststylus(postcssPlugins)
+             poststylus(['autoprefixer', 'postcss-position', 'lost'])
           ]
         },
         files: {
@@ -83,17 +69,33 @@ module.exports = function(grunt) {
 
 };
 ```
---
-### Alternate syntax
-Alternatively, you can pass plugins in by their module name, e.g. 
-```js
-poststylus([
-	'postcss-position',
-	'postcss-hexrgba'
-]);
+
+###### CLI
+To use PostStylus on the Stylus CLI, pass postStylus to `--use`, and PostCSS plugins to `--with`: 
+```sh
+$ stylus --use ./node_modules/poststylus --with "['autoprefixer']" --out test.css < test.styl
 ```
-the modules will then be automatically required and executed e.g. `'postcss-position'` will become `require('postcss-position')()`
+
 -- 
+
+### Passing Arguments to Plugins
+If you need to pass arguments to a PostCSS plugin `require()` it and pass that function to PostStylus:
+```js
+var autoprefixer = require('autoprefixer');
+
+stylus(css).use([
+    poststylus([
+        autoprefixer({ browsers: ['ie 7', 'ie 8'] })
+    ])
+])
+```
+
+To pass arguments to PostCSS plugins on the CLI, you'll need to prefix `require()` with `$PWD`, since the `stylus` executable runs globally, while your plugins are (probably) installed locally:
+```sh
+stylus --use ./node_modules/poststylus --with "[require('${PWD}/node_modules/autoprefixer')()" --out test.css < test.styl
+```
+
+--
 
 ### Custom PostCSS
 You can do any custom javascript/PostCSS processing of stylus output you want with PostStylus, just declare an on-the-fly plugin like so:
@@ -105,11 +107,9 @@ var myPostcss = postcss.plugin('custom', function() {
 };
 
 // then pipe it into poststylus, as above
-stylus(css).use(poststylus(
-  require(myPostcss())
-)
+stylus(css).use(poststylus([myPostcss()]))
 ```
-Refer to the [PostCSS Docs][postcss-link] for more.
+Refer to the [PostCSS Docs][postcss-link] for more on writing plugins.
 
 -- 
 
@@ -125,3 +125,4 @@ MIT © [Sean King](http://simpla.io)
 [daviddm-image]: https://david-dm.org/seaneking/poststylus.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/seaneking/poststylus
 [postcss-link]: https://github.com/postcss/postcss
+[autoprefixer-stylus]: https://github.com/jenius/autoprefixer-stylus
