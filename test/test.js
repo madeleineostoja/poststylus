@@ -45,9 +45,22 @@ var matchExpected = function(file, plugin, done) {
 
 // start the tests
 describe('PostStylus', function() {
+  var mockModule;
+
+  before(function() {
+    mockModule = path.join(__dirname, 'mockModule');
+  });
 
   it('works', function(done) {
     return matchExpected('plugin.styl', mocks.plugin, done);
+  });
+
+  it('takes a string and requires it', function(done) {
+    return matchExpected('plugin.styl', mockModule, done);
+  });
+
+  it('takes an array of strings and requires them', function(done) {
+    return matchExpected('plugin.styl', [mockModule], done);
   });
 
   it('stays alive when not given plugins', function(done) {
