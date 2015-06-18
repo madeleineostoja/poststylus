@@ -1,6 +1,6 @@
 {
   "name": "poststylus",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "postcss adapter for stylus",
   "homepage": "http://github.com/seaneking/poststylus",
   "author": {
