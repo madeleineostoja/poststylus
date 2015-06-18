@@ -83,7 +83,16 @@ module.exports = function(grunt) {
 
 };
 ```
-
+--
+### Alternate syntax
+Alternatively, you can pass plugins in by their module name, e.g. 
+```js
+poststylus([
+	'postcss-position',
+	'postcss-hexrgba'
+]);
+```
+the modules will then be automatically required and executed e.g. `'postcss-position'` will become `require('postcss-position')()`
 -- 
 
 ### Custom PostCSS
