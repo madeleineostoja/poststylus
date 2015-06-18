@@ -11,16 +11,11 @@ var chai = require('chai'),
     parse = require('css-parse');
 
 // path to test input/output files
-var testPath = path.join(__dirname, 'fixtures');
+var testPath = path.join(__dirname, 'fixtures'),
+    mocksPath = path.join(__dirname, 'mocks'),
+    mockDeps = { postcss: postcss };
 
-// dummy postcss plugin to test with, finds decleration 'foo:' and removes it
-var testPlugin = postcss.plugin('test', function (filter) {
-    return function (css) {
-        css.eachDecl(filter || 'foo', function (decl) {
-            decl.removeSelf();
-        });
-    };
-});
+var mocks = require(mocksPath)(mockDeps);
 
 // matching function to test if input stylus = expected output css
 var matchExpected = function(file, plugin, done) {
@@ -52,7 +47,7 @@ var matchExpected = function(file, plugin, done) {
 describe('PostStylus', function() {
 
   it('works', function(done) {
-    return matchExpected('plugin.styl', testPlugin(), done);
+    return matchExpected('plugin.styl', mocks.plugin, done);
   });
 
   it('stays alive when not given plugins', function(done) {
@@ -68,7 +63,7 @@ describe('PostStylus', function() {
     var style = stylus(fs.readFileSync(filename, 'utf8'))
         .set('filename', filename)
         .set('sourcemap', true)
-        .use(poststylus(testPlugin()));
+        .use(poststylus(mocks.plugin()));
 
     // see what gets returned
     return style.render(function(err, css) {
