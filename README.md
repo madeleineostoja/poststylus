@@ -1,9 +1,9 @@
 # PostStylus
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 
-PostStylus is a [PostCSS][postcss-link] adapter for Stylus. With it you can use any PostCSS plugin as a transparent Stylus plugin. Neato!
+PostStylus is a [PostCSS][postcss-link] adapter for Stylus. With it you can use any PostCSS plugin as a transparent Stylus plugin, and do custom post-processing of Stylus output. Neato!
 
-It loads PostCSS plugins into Stylus just before it compiles output css into a file. If you use sourcemaps, they are preserved and extended by PostCSS processing.
+It loads PostCSS processors into Stylus just before the output CSS is compiled to file. If you use sourcemaps, they are preserved and extended by PostCSS processing.
 
 Inspired by [autoprefixer-stylus][autoprefixer-stylus]
 
@@ -18,16 +18,19 @@ $ npm install --save poststylus
 
 ### Usage
 Just use `poststylus` as a regular stylus plugin and pass it an array of PostCSS plugins:
+
 ```js
 stylus(css).use(poststylus([
-    // postcss plugins here
+    'autoprefixer',
+    'postcss-position',
+    'lost'
 ]))
 ```
 
 ###### Gulp:
 ```js
 var gulp = require('gulp'),
-    stylus = require('gulps-stylus'),
+    stylus = require('gulp-stylus'),
     poststylus = require('poststylus');
 
 gulp.task('stylus', function () {
@@ -72,6 +75,7 @@ module.exports = function(grunt) {
 
 ###### CLI
 To use PostStylus on the Stylus CLI, pass `poststylus` to `--use`, and PostCSS plugins to `--with`: 
+
 ```sh
 $ stylus --use ./node_modules/poststylus --with "['autoprefixer']" --out test.css < test.styl
 ```
@@ -91,24 +95,27 @@ stylus(css).use([
 ```
 
 To pass arguments to PostCSS plugins on the CLI, you'll need to prefix `require()` with `$PWD`, since the `stylus` executable runs globally, while your plugins are (probably) installed locally:
+
 ```sh
 stylus --use ./node_modules/poststylus --with "[require('${PWD}/node_modules/autoprefixer')()" --out test.css < test.styl
 ```
 
 --
 
-### Custom PostCSS
-You can do any custom javascript/PostCSS processing of stylus output you want with PostStylus, just declare an on-the-fly plugin like so:
+### Custom Processing
+You can do custom post-processing of Stylus output by just declaring an on-the-fly PostCSS plugin:
+
 ```js
 var myPostcss = postcss.plugin('custom', function() {
   return function (css) {
-    // custom processing here
+    // javascript post-processing magic here
   });
 };
 
-// then pipe it into poststylus, as above
+// then pipe it into poststylus
 stylus(css).use(poststylus([myPostcss()]))
 ```
+
 Refer to the [PostCSS Docs][postcss-link] for more on writing plugins.
 
 -- 
