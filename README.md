@@ -122,7 +122,7 @@ Refer to the [PostCSS Docs][postcss-link] for more on writing plugins.
 
 ### License
 
-MIT © [Sean King](http://simpla.io)
+MIT © [Sean King](https://twitter.com/seaneking)
 
 
 [npm-image]: https://badge.fury.io/js/poststylus.svg
