@@ -46,7 +46,7 @@ gulp.task('stylus', function () {
 gulp.task('default', ['stylus']);
 ```
 
-  
+
 ###### Grunt:
 ``` js
 module.exports = function(grunt) {
@@ -74,13 +74,13 @@ module.exports = function(grunt) {
 ```
 
 ###### CLI
-To use PostStylus on the Stylus CLI, pass `poststylus` to `--use`, and PostCSS plugins to `--with`: 
+To use PostStylus on the Stylus CLI, pass `poststylus` to `--use`, and PostCSS plugins to `--with`:
 
 ```sh
 $ stylus --use ./node_modules/poststylus --with "['autoprefixer']" --out test.css < test.styl
 ```
 
--- 
+--
 
 ### Passing Arguments to Plugins
 If you need to pass arguments to a PostCSS plugin `require()` it and pass that function to PostStylus:
@@ -118,7 +118,12 @@ stylus(css).use(poststylus([myPostcss()]))
 
 Refer to the [PostCSS Docs][postcss-link] for more on writing plugins.
 
--- 
+__
+
+### Asynchronous Processing
+Unfortunately the Stylus `end` event that PostStylus uses to pass back post-processed css doesn't accept a callback, so until [this](https://github.com/stylus/stylus/issues/1698) bug is patched upstream PostStylus cannot work with asynchronous PostCSS processing. I would gladly welcome a PR if anyone can think of another way around this issue (see `async` branch for current work on this front).
+
+--
 
 ### License
 
