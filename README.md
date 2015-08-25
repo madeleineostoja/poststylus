@@ -70,8 +70,8 @@ module.exports = function(grunt) {
     }
 
   });
-
-  grunt.registerTask('default', ['stylus']);
+  
+  grunt.loadNpmTasks('grunt-contrib-stylus');
 
 };
 ```
