@@ -22,8 +22,7 @@ Just use `poststylus` as a regular stylus plugin and pass it an array of PostCSS
 ```js
 stylus(css).use(poststylus([
     'autoprefixer',
-    'postcss-position',
-    'lost'
+    'cssnano'
 ]))
 ```
 
@@ -37,7 +36,7 @@ gulp.task('stylus', function () {
   gulp.src('style.styl')
     .pipe(stylus({
       use: [
-        poststylus(['autoprefixer', 'postcss-position', 'lost'])
+        poststylus(['rucksack-css', 'lost'])
       ]
     }))
     .pipe(gulp.dest('.'))
@@ -48,7 +47,13 @@ gulp.task('default', ['stylus']);
 
 
 ###### Grunt:
+`grunt-contrib-stylus` doesn't support passing arguments to plugins, so you have to wrap PostStylus in a function and return it.
+
 ``` js
+var postcss = function(){
+  return require('poststylus')(['rucksack-css', 'lost']);
+}
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -56,9 +61,7 @@ module.exports = function(grunt) {
     stylus: {
       compile: {
         options: {
-          use: [
-             poststylus(['autoprefixer', 'postcss-position', 'lost'])
-          ]
+          use: [postcss]
         },
         files: {
           'style.css': 'style.styl'
@@ -88,9 +91,9 @@ If you need to pass arguments to a PostCSS plugin `require()` it and pass that f
 var autoprefixer = require('autoprefixer');
 
 stylus(css).use([
-    poststylus([
-        autoprefixer({ browsers: ['ie 7', 'ie 8'] })
-    ])
+  poststylus([
+    autoprefixer({ browsers: ['ie 7', 'ie 8'] })
+  ])
 ])
 ```
 
