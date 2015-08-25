@@ -6,8 +6,8 @@ var exports = function(deps) {
     // Dummy postcss plugin to test with, finds decleration 'foo:' and removes it
     plugin: deps.postcss.plugin('test', function (filter) {
       return function (css) {
-          css.eachDecl(filter || 'foo', function (decl) {
-              decl.removeSelf();
+          css.walkDecls(filter || 'foo', function (decl) {
+              decl.remove();
           });
       };
     })
