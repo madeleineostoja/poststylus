@@ -4,7 +4,7 @@ var postcss = require('postcss'),
     path = require('path'),
     map = require('multi-stage-sourcemap');
 
-module.exports = function (plugins) {
+module.exports = function (plugins, warningHandler) {
 
   plugins = plugins || [];
 
@@ -68,7 +68,7 @@ module.exports = function (plugins) {
       }
 
       // Pipe postcss errors to console
-      processed.warnings().forEach(console.error);
+      processed.warnings().forEach(warningHandler || console.error);
 
       return processed.css;
 
