@@ -10,6 +10,14 @@ var exports = function(deps) {
               decl.remove();
           });
       };
+    }),
+    // Dummy postcss plugin to test with, raises a warning if 'shouldWarn' is true
+    warn: deps.postcss.plugin('warn', function (shouldWarn) {
+        return function (css, result) {
+            if (shouldWarn){
+                result.warn('A warning was raised');
+            }
+        };
     })
   };
 
