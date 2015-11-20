@@ -121,10 +121,24 @@ stylus(css).use(poststylus([myPostcss()]))
 
 Refer to the [PostCSS Docs][postcss-link] for more on writing plugins.
 
-__
+--
 
 ### Asynchronous Processing
 Unfortunately the Stylus `end` event that PostStylus uses to pass back post-processed css doesn't accept a callback, so until [this](https://github.com/stylus/stylus/issues/1698) bug is patched upstream PostStylus cannot work with asynchronous PostCSS processing. I would gladly welcome a PR if anyone can think of another way around this issue (see `async` branch for current work on this front).
+
+--
+
+### Warning Handler
+By default, if any of your PostCSS plugins raise a warning it will be displayed using `console.error`. You can override this behaviour by passing a function as the second argument to PostStylus.
+
+```js
+stylus(css).use(poststylus([
+    'autoprefixer',
+    'cssnano'
+], function(message) {
+    console.info(message);
+}))
+```
 
 --
 

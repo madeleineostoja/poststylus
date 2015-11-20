@@ -98,4 +98,45 @@ describe('PostStylus', function() {
 
   });
 
+  describe('accepts a warning function', function () {
+    var wasCalled, warnFn, filename, file;
+
+    before(function () {
+      warnFn = function (message) {
+        wasCalled = true;
+      };
+      filename = path.join(testPath, 'plugin.styl');
+      file = fs.readFileSync(filename, 'utf8');
+    });
+
+    beforeEach(function () {
+        wasCalled = false;
+    });
+
+    it('calls the warning function when a warning is raised', function(done) {
+      stylus(file)
+        .use(poststylus(mocks.warn(true), warnFn))
+        .render(function(err) {
+          if (err) {
+            return done(err);
+          }
+
+          should.equal(wasCalled, true);
+          done();
+        });
+    });
+
+    it('does not call the warning function if a warning is not raised', function(done) {
+      stylus(file)
+        .use(poststylus(mocks.warn(false), warnFn))
+        .render(function(err) {
+            if (err) {
+                return done(err);
+            }
+
+            should.equal(wasCalled, false);
+            done();
+        });
+    });
+  });
 });
