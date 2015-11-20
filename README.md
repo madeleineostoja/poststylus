@@ -11,7 +11,7 @@ Inspired by [autoprefixer-stylus][autoprefixer-stylus]
 
 ### Install
 ```sh
-$ npm install --save poststylus
+$ npm install --save-dev poststylus
 ```
 
 --
@@ -22,7 +22,7 @@ Just use `poststylus` as a regular stylus plugin and pass it an array of PostCSS
 ```js
 stylus(css).use(poststylus([
     'autoprefixer',
-    'cssnano'
+    'rucksack-css'
 ]))
 ```
 
@@ -36,7 +36,7 @@ gulp.task('stylus', function () {
   gulp.src('style.styl')
     .pipe(stylus({
       use: [
-        poststylus(['rucksack-css', 'lost'])
+        poststylus(['autoprefixer', 'rucksack-css'])
       ]
     }))
     .pipe(gulp.dest('.'))
@@ -51,7 +51,7 @@ gulp.task('default', ['stylus']);
 
 ``` js
 var postcss = function(){
-  return require('poststylus')(['rucksack-css', 'lost']);
+  return require('poststylus')(['autoprefixer', 'rucksack-css']);
 }
 
 module.exports = function(grunt) {
@@ -92,7 +92,7 @@ var autoprefixer = require('autoprefixer');
 
 stylus(css).use([
   poststylus([
-    autoprefixer({ browsers: ['ie 7', 'ie 8'] })
+    autoprefixer({ browsers: ['ie 8'] })
   ])
 ])
 ```
@@ -100,7 +100,7 @@ stylus(css).use([
 To pass arguments to PostCSS plugins on the CLI, you'll need to prefix `require()` with `$PWD`, since the `stylus` executable runs globally, while your plugins are (probably) installed locally:
 
 ```sh
-stylus --use ./node_modules/poststylus --with "[require('${PWD}/node_modules/autoprefixer')()" --out test.css < test.styl
+stylus --use ./node_modules/poststylus --with "[require('${PWD}/node_modules/autoprefixer')({ browsers: ['ie 8'] })]" --out test.css < test.styl
 ```
 
 --
@@ -123,22 +123,22 @@ Refer to the [PostCSS Docs][postcss-link] for more on writing plugins.
 
 --
 
-### Asynchronous Processing
-Unfortunately the Stylus `end` event that PostStylus uses to pass back post-processed css doesn't accept a callback, so until [this](https://github.com/stylus/stylus/issues/1698) bug is patched upstream PostStylus cannot work with asynchronous PostCSS processing.
-
---
-
 ### Warning Handler
 By default, if any of your PostCSS plugins raise a warning it will be displayed using `console.error`. You can override this behaviour by passing a function as the second argument to PostStylus.
 
 ```js
 stylus(css).use(poststylus([
     'autoprefixer',
-    'cssnano'
+    'rucksack-css'
 ], function(message) {
     console.info(message);
-}))
+}));
 ```
+
+--
+
+### Asynchronous Processing
+Unfortunately the Stylus `end` event that PostStylus uses to pass back post-processed css doesn't accept a callback, so until [this](https://github.com/stylus/stylus/issues/1698) bug is patched upstream PostStylus cannot work with asynchronous PostCSS processing.
 
 --
 

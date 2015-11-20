@@ -4,7 +4,6 @@ var gulp = require('gulp'),
     eslint = require('gulp-eslint'),
     mocha = require('gulp-mocha');
 
-// lint all js using eslint
 gulp.task('lint', function () {
   return gulp.src(['index.js', 'test/*.js', 'gulpfile.js'])
     .pipe(eslint())
@@ -12,12 +11,10 @@ gulp.task('lint', function () {
     .pipe(eslint.failAfterError());
 });
 
-// run our mocha tests
 gulp.task('test', function () {
   return gulp.src('test/*.js', { read: false }).pipe(mocha({reporter: 'spec'}));
 });
 
-// handy dandy watch task for active dev
 gulp.task('watch', function() {
   gulp.watch('**/*.js', ['check'] );
 });
