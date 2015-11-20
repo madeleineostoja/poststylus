@@ -70,7 +70,7 @@ module.exports = function(grunt) {
     }
 
   });
-  
+
   grunt.loadNpmTasks('grunt-contrib-stylus');
 
 };
@@ -124,7 +124,7 @@ Refer to the [PostCSS Docs][postcss-link] for more on writing plugins.
 --
 
 ### Asynchronous Processing
-Unfortunately the Stylus `end` event that PostStylus uses to pass back post-processed css doesn't accept a callback, so until [this](https://github.com/stylus/stylus/issues/1698) bug is patched upstream PostStylus cannot work with asynchronous PostCSS processing. I would gladly welcome a PR if anyone can think of another way around this issue (see `async` branch for current work on this front).
+Unfortunately the Stylus `end` event that PostStylus uses to pass back post-processed css doesn't accept a callback, so until [this](https://github.com/stylus/stylus/issues/1698) bug is patched upstream PostStylus cannot work with asynchronous PostCSS processing.
 
 --
 
