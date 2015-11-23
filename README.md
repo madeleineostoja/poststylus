@@ -76,6 +76,23 @@ module.exports = function(grunt) {
 };
 ```
 
+###### Webpack:
+Use [stylus-loader][stylus-loader] with PostStylus as a plugin in your webpack.conf.js
+```
+var poststylus = require('poststylus');
+
+module: {
+  loaders: [
+    { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' }
+  ]
+},
+stylus: {
+  use: [
+    poststylus([ 'autoprefixer', 'rucksack-css' ])
+  ]
+}
+```
+
 ###### CLI
 To use PostStylus on the Stylus CLI, pass `poststylus` to `--use`, and PostCSS plugins to `--with`:
 
@@ -155,3 +172,4 @@ MIT © [Sean King](https://twitter.com/seaneking)
 [daviddm-url]: https://david-dm.org/seaneking/poststylus
 [postcss-link]: https://github.com/postcss/postcss
 [autoprefixer-stylus]: https://github.com/jenius/autoprefixer-stylus
+[stylus-loader]: https://github.com/shama/stylus-loader
