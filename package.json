@@ -30,7 +30,7 @@
     "gulp": "^3.9.0",
     "gulp-eslint": "^0.14.0",
     "gulp-mocha": "^2.1.1",
-    "stylus": "^0.51.1"
+    "stylus": "^0.53.0"
   },
   "scripts": {
     "test": "gulp check"
