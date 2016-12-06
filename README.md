@@ -92,6 +92,26 @@ stylus: {
   ]
 }
 ```
+If you are using webpack 2, use the webpack LoaderOptionsPlugin
+```
+var poststylus = require('poststylus');
+var webpack = require('webpack');
+module: {
+  loaders: [
+    { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' }
+  ]
+},
+plugins: [
+  ...,
+  new webpack.LoaderOptionsPlugin({
+    options: {
+      stylus: {
+        use: [poststylus([ 'autoprefixer', 'rucksack-css' ])]
+      }
+    }
+  })
+]
+```
 
 ###### CLI
 To use PostStylus on the Stylus CLI, pass `poststylus` to `--use`, and PostCSS plugins to `--with`:
