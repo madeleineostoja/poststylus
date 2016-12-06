@@ -26,7 +26,7 @@ stylus(css).use(poststylus([
 ]))
 ```
 
-###### Gulp:
+###### Gulp
 ```js
 var gulp = require('gulp'),
     stylus = require('gulp-stylus'),
@@ -46,7 +46,7 @@ gulp.task('default', ['stylus']);
 ```
 
 
-###### Grunt:
+###### Grunt
 `grunt-contrib-stylus` doesn't support passing arguments to plugins, so you have to wrap PostStylus in a function and return it.
 
 ``` js
@@ -76,10 +76,11 @@ module.exports = function(grunt) {
 };
 ```
 
-###### Webpack:
+###### Webpack
 Use [stylus-loader][stylus-loader] with PostStylus as a plugin in your webpack.conf.js
 ```
-var poststylus = require('poststylus');
+var poststylus = require('poststylus'),
+    webpack = require('webpack');
 
 module: {
   loaders: [
@@ -92,17 +93,11 @@ stylus: {
   ]
 }
 ```
-If you are using webpack 2, use the webpack LoaderOptionsPlugin
+
+If you are using webpack 2, use `LoaderOptionsPlugin` to set options
 ```
-var poststylus = require('poststylus');
-var webpack = require('webpack');
-module: {
-  loaders: [
-    { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' }
-  ]
-},
+module: {...},
 plugins: [
-  ...,
   new webpack.LoaderOptionsPlugin({
     options: {
       stylus: {
