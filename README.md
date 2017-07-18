@@ -1,15 +1,14 @@
 # PostStylus
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 
-PostStylus is a [PostCSS][postcss-link] adapter for Stylus. With it you can use any PostCSS plugin as a transparent Stylus plugin, and do custom post-processing of Stylus output. Neato!
+PostStylus is a [PostCSS][postcss] adapter for Stylus. It allows you to use any PostCSS plugin as a transparent Stylus plugin, and do custom post-processing of Stylus output.
 
 It loads PostCSS processors into Stylus just before the output CSS is compiled to file. If you use sourcemaps, they are preserved and extended by PostCSS processing.
 
 Inspired by [autoprefixer-stylus][autoprefixer-stylus]
 
---
-
 ### Install
+
 ```sh
 $ npm install --save-dev poststylus
 ```
@@ -17,26 +16,30 @@ $ npm install --save-dev poststylus
 --
 
 ### Usage
-Just use `poststylus` as a regular stylus plugin and pass it an array of PostCSS plugins:
+
+Use `poststylus` as a regular stylus plugin and pass it an array of PostCSS plugins you have installed, either as strings or functions.
 
 ```js
 stylus(css).use(poststylus([
-    'autoprefixer',
-    'rucksack-css'
+  'autoprefixer',
+  'rucksack-css'
 ]))
 ```
 
 ###### Gulp
+
 ```js
 var gulp = require('gulp'),
     stylus = require('gulp-stylus'),
-    poststylus = require('poststylus');
+    poststylus = require('poststylus'),
+    autoprefixer = require('autoprefixer'),
+    rucksack = require('rucksack-css');
 
 gulp.task('stylus', function () {
   gulp.src('style.styl')
     .pipe(stylus({
       use: [
-        poststylus(['autoprefixer', 'rucksack-css'])
+        poststylus([ autoprefixer, rucksack ])
       ]
     }))
     .pipe(gulp.dest('.'))
@@ -47,7 +50,8 @@ gulp.task('default', ['stylus']);
 
 
 ###### Grunt
-`grunt-contrib-stylus` doesn't support passing arguments to plugins, so you have to wrap PostStylus in a function and return it.
+
+`grunt-contrib-stylus` doesn't support passing arguments to plugins, so you have to wrap PostStylus in a function and return it
 
 ``` js
 var postcss = function(){
@@ -77,7 +81,9 @@ module.exports = function(grunt) {
 ```
 
 ###### Webpack
+
 Use [stylus-loader][stylus-loader] with PostStylus as a plugin in your webpack.conf.js
+
 ```
 var poststylus = require('poststylus'),
     webpack = require('webpack');
@@ -95,6 +101,7 @@ stylus: {
 ```
 
 If you are using webpack 2, use `LoaderOptionsPlugin` to set options
+
 ```
 module: {...},
 plugins: [
@@ -109,16 +116,17 @@ plugins: [
 ```
 
 ###### CLI
+
 To use PostStylus on the Stylus CLI, pass `poststylus` to `--use`, and PostCSS plugins to `--with`:
 
 ```sh
 $ stylus --use ./node_modules/poststylus --with "['autoprefixer']" --out test.css < test.styl
 ```
 
---
-
 ### Passing Arguments to Plugins
-If you need to pass arguments to a PostCSS plugin `require()` it and pass that function to PostStylus:
+
+If you need to pass arguments to a PostCSS plugin `require()` it and pass that function to PostStylus
+
 ```js
 var autoprefixer = require('autoprefixer');
 
@@ -135,27 +143,26 @@ To pass arguments to PostCSS plugins on the CLI, you'll need to prefix `require(
 stylus --use ./node_modules/poststylus --with "[require('${PWD}/node_modules/autoprefixer')({ browsers: ['ie 8'] })]" --out test.css < test.styl
 ```
 
---
 
 ### Custom Processing
-You can do custom post-processing of Stylus output by just declaring an on-the-fly PostCSS plugin:
+
+Do custom post-processing of Stylus output by declaring an on-the-fly PostCSS plugin
 
 ```js
 var myPostcss = postcss.plugin('custom', function() {
   return function (css) {
-    // javascript post-processing magic here
-  });
-};
+    // PostCSS processing here
+  };
+});
 
-// then pipe it into poststylus
-stylus(css).use(poststylus([myPostcss()]))
+// Pipe it into poststylus
+stylus(css).use(poststylus([myPostcss()]));
 ```
 
 Refer to the [PostCSS Docs][postcss-link] for more on writing plugins.
 
---
-
 ### Warning Handler
+
 By default, if any of your PostCSS plugins raise a warning it will be displayed using `console.error`. You can override this behaviour by passing a function as the second argument to PostStylus.
 
 ```js
@@ -167,17 +174,14 @@ stylus(css).use(poststylus([
 }));
 ```
 
---
 
 ### Asynchronous Processing
-Unfortunately the Stylus `end` event that PostStylus uses to pass back post-processed css doesn't accept a callback, so until [this](https://github.com/stylus/stylus/issues/1698) bug is patched upstream PostStylus cannot work with asynchronous PostCSS processing.
 
---
+Unfortunately the Stylus `end` event that PostStylus uses to pass back post-processed CSS doesn't accept a callback, so until [this](https://github.com/stylus/stylus/issues/1698) bug is patched upstream PostStylus cannot work with asynchronous PostCSS processing.
 
-### License
+***
 
 MIT © [Sean King](https://twitter.com/seaneking)
-
 
 [npm-image]: https://badge.fury.io/js/poststylus.svg
 [npm-url]: https://npmjs.org/package/poststylus
@@ -185,6 +189,6 @@ MIT © [Sean King](https://twitter.com/seaneking)
 [travis-url]: https://travis-ci.org/seaneking/poststylus
 [daviddm-image]: https://david-dm.org/seaneking/poststylus.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/seaneking/poststylus
-[postcss-link]: https://github.com/postcss/postcss
+[postcss]: https://github.com/postcss/postcss
 [autoprefixer-stylus]: https://github.com/jenius/autoprefixer-stylus
 [stylus-loader]: https://github.com/shama/stylus-loader
