@@ -13,8 +13,6 @@ Inspired by [autoprefixer-stylus][autoprefixer-stylus]
 $ npm install --save-dev poststylus
 ```
 
---
-
 ### Usage
 
 Use `poststylus` as a regular stylus plugin and pass it an array of PostCSS plugins you have installed, either as strings or functions.
