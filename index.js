@@ -1,22 +1,21 @@
 'use strict';
 
-var postcss = require('postcss'),
-    path = require('path'),
-    map = require('multi-stage-sourcemap');
+const postcss = require('postcss');
+const path = require('path');
+const map = require('multi-stage-sourcemap');
 
-module.exports = function (plugins, warnFn) {
+function processPlugin(plugin) {
+  // If plugin is a string, require the package that we assume it points to
+  if (typeof plugin === 'string') {
+    return require(plugin)();
+  }
+
+  return plugin;
+}
+
+module.exports = function(plugins, warnFn) {
 
   plugins = plugins || [];
-
-  var processPlugin = function(plugin) {
-
-    // If plugin is a string, require the package that we assume it points to
-    if (typeof plugin === 'string') {
-      return require(plugin)();
-    }
-
-    return plugin;
-  };
 
   // Either process each if its an array, or directly if singular
   if (typeof plugins.map !== 'undefined') {
@@ -28,18 +27,22 @@ module.exports = function (plugins, warnFn) {
   // Return stylus function after postcss processing
   return function(style) {
     style = this || style;
-    var filename = style.options.filename;
+
+    let filename = style.options.filename;
 
     // Grab stylus' ouput css before it's compiled to file
     style.on('end', function(err, css) {
+
+      let processOptions,
+          processed,
+          comboMap;
 
       // Exit on error
       if (err){
         return err;
       }
 
-      // Postcss options
-      var processOptions = {
+      processOptions = {
         from: filename,
         to: path.join(
           path.dirname(filename),
@@ -53,18 +56,17 @@ module.exports = function (plugins, warnFn) {
       }
 
       // Run postcss with user plugins
-      var processed = postcss(plugins).process(css, processOptions);
+      processed = postcss(plugins).process(css, processOptions);
 
       // If sourcemaps generated, combine them
       if (processed.map && style.sourcemap) {
 
-        var comboMap = map.transfer({
+        comboMap = map.transfer({
           fromSourceMap: processed.map.toString(),
           toSourceMap: style.sourcemap
         });
 
         style.sourcemap = JSON.parse(comboMap);
-
       }
 
       // Pipe postcss errors to console
@@ -75,8 +77,6 @@ module.exports = function (plugins, warnFn) {
       processed.warnings().forEach(warnFn);
 
       return processed.css;
-
     });
-
   };
 };

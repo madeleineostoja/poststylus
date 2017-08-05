@@ -1,30 +1,28 @@
 {
   "env": {
     "node": true,
-    "mocha": true
+    "mocha": true,
+    "es6": true
   },
-
+  "extends": "eslint:recommended",
   "rules": {
-    "no-cond-assign": 0,
     "no-console": 0,
-    "no-extra-parens": 2,
-    "block-scoped-var": 0,
-    "eqeqeq": [2, "smart"],
-    "no-else-return": 2,
-    "no-floating-decimal": 2,
-    "wrap-iife": [2, "inside"],
-    "no-mixed-requires": 0,
-    "no-use-before-define": 1,
-    "brace-style": 2,
-    "no-trailing-spaces": 1,
-    "camelcase": 2,
-    "new-cap": 2,
-    "no-lonely-if": 2,
-    "no-underscore-dangle": 2,
-    "space-after-keywords": 2,
-    "space-in-brackets": 0,
-    "space-infix-ops": 2,
-    "one-var": 2,
-    "quotes": [1, "single"]
+    "indent": [
+      "error",
+      2,
+      { "VariableDeclarator": 2 }
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
   }
 }

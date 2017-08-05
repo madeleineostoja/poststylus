@@ -32,15 +32,14 @@ var matchExpected = function(file, plugin, done) {
       var expected = fs.readFileSync(path.join(
         testPath,
         file.replace('.styl', '.css')),
-        'utf8'
+      'utf8'
       );
 
       // processed output should === css test file
       parse(css).should.eql(parse(expected));
 
-    return done();
-
-  });
+      return done();
+    });
 };
 
 // start the tests
@@ -67,37 +66,6 @@ describe('PostStylus', function() {
     return matchExpected('untouched.styl', '', done);
   });
 
-  it('returns correct sourcemaps', function(done) {
-
-    // stylus input file to test
-    var filename = path.join(testPath, 'plugin.styl');
-
-    // define stylus processing
-    var style = stylus(fs.readFileSync(filename, 'utf8'))
-        .set('filename', filename)
-        .set('sourcemap', true)
-        .use(poststylus(mocks.plugin()));
-
-    // see what gets returned
-    return style.render(function(err, css) {
-
-      // if error drop out straight away
-      if (err) {
-        return done(err);
-      }
-
-      // sourcemap checks
-      style.sourcemap.should.be.an('object');
-      style.sourcemap.sources[0].should.equal('stylus');
-      style.sourcemap.version.should.equal(3);
-      style.sourcemap.mappings.should.equal('AAAA;EACE,YAAA');
-
-      // aaand we're done
-      return done();
-    });
-
-  });
-
   describe('accepts a warning function', function () {
     var wasCalled, warnFn, filename, file;
 
@@ -110,7 +78,7 @@ describe('PostStylus', function() {
     });
 
     beforeEach(function () {
-        wasCalled = false;
+      wasCalled = false;
     });
 
     it('calls the warning function when a warning is raised', function(done) {
@@ -130,12 +98,12 @@ describe('PostStylus', function() {
       stylus(file)
         .use(poststylus(mocks.warn(false), warnFn))
         .render(function(err) {
-            if (err) {
-                return done(err);
-            }
+          if (err) {
+            return done(err);
+          }
 
-            should.equal(wasCalled, false);
-            done();
+          should.equal(wasCalled, false);
+          done();
         });
     });
   });

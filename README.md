@@ -3,7 +3,7 @@
 
 PostStylus is a [PostCSS][postcss] adapter for Stylus. It allows you to use any PostCSS plugin as a transparent Stylus plugin, and do custom post-processing of Stylus output.
 
-It loads PostCSS processors into Stylus just before the output CSS is compiled to file. If you use sourcemaps, they are preserved and extended by PostCSS processing.
+It loads PostCSS processors into Stylus just before the output CSS is compiled to file.
 
 Inspired by [autoprefixer-stylus][autoprefixer-stylus]
 
@@ -182,7 +182,6 @@ stylus(css).use(poststylus([
     console.info(message);
 }));
 ```
-
 
 ## Asynchronous Processing
 
